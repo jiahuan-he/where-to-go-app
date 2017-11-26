@@ -7,15 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A068DD01FCB6EE80076327F /* GroupedStackedBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A068DCF1FCB6EE80076327F /* GroupedStackedBarVC.swift */; };
 		3AB21F991FCA14630022D2EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB21F981FCA14630022D2EE /* AppDelegate.swift */; };
 		3AB21F9B1FCA14630022D2EE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB21F9A1FCA14630022D2EE /* ViewController.swift */; };
 		3AB21F9E1FCA14630022D2EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AB21F9C1FCA14630022D2EE /* Main.storyboard */; };
 		3AB21FA01FCA14630022D2EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AB21F9F1FCA14630022D2EE /* Assets.xcassets */; };
 		3AB21FA31FCA14630022D2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AB21FA11FCA14630022D2EE /* LaunchScreen.storyboard */; };
-		758B00D2012539BEAC1B148F /* libPods-where-to-go.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD1AE95515FECC8125FA04DE /* libPods-where-to-go.a */; };
+		45CA5C283A0C0DFEF752BAE9 /* Pods_where_to_go.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F330813F10852C1D34C954F2 /* Pods_where_to_go.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A068DCF1FCB6EE80076327F /* GroupedStackedBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedStackedBarVC.swift; sourceTree = "<group>"; };
 		3AB21F951FCA14630022D2EE /* where-to-go.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "where-to-go.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AB21F981FCA14630022D2EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3AB21F9A1FCA14630022D2EE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -25,7 +27,7 @@
 		3AB21FA41FCA14630022D2EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		613724A8216062D42227CAEE /* Pods-where-to-go.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-where-to-go.debug.xcconfig"; path = "Pods/Target Support Files/Pods-where-to-go/Pods-where-to-go.debug.xcconfig"; sourceTree = "<group>"; };
 		E518F1747AF04D7055DC831F /* Pods-where-to-go.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-where-to-go.release.xcconfig"; path = "Pods/Target Support Files/Pods-where-to-go/Pods-where-to-go.release.xcconfig"; sourceTree = "<group>"; };
-		FD1AE95515FECC8125FA04DE /* libPods-where-to-go.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-where-to-go.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F330813F10852C1D34C954F2 /* Pods_where_to_go.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_where_to_go.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,7 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				758B00D2012539BEAC1B148F /* libPods-where-to-go.a in Frameworks */,
+				45CA5C283A0C0DFEF752BAE9 /* Pods_where_to_go.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +69,7 @@
 				3AB21F9F1FCA14630022D2EE /* Assets.xcassets */,
 				3AB21FA11FCA14630022D2EE /* LaunchScreen.storyboard */,
 				3AB21FA41FCA14630022D2EE /* Info.plist */,
+				3A068DCF1FCB6EE80076327F /* GroupedStackedBarVC.swift */,
 			);
 			path = "where-to-go";
 			sourceTree = "<group>";
@@ -74,7 +77,7 @@
 		87F3C8EE67A41E903267F4DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FD1AE95515FECC8125FA04DE /* libPods-where-to-go.a */,
+				F330813F10852C1D34C954F2 /* Pods_where_to_go.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -201,9 +204,12 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-where-to-go/Pods-where-to-go-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SwiftCharts/SwiftCharts.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftCharts.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -219,6 +225,7 @@
 			files = (
 				3AB21F9B1FCA14630022D2EE /* ViewController.swift in Sources */,
 				3AB21F991FCA14630022D2EE /* AppDelegate.swift in Sources */,
+				3A068DD01FCB6EE80076327F /* GroupedStackedBarVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

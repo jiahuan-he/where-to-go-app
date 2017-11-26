@@ -9,6 +9,9 @@
 import UIKit
 import GooglePlaces
 import CoreLocation
+import Charts
+
+
 //
 //func isLocationPermissionGranted() -> Bool
 //{
@@ -32,15 +35,20 @@ func isLocationAllowed() -> Bool{
     }
 }
 
-class ViewController: UIViewController{
-
+class ViewController: UIViewController, GMSAutocompleteViewControllerDelegate{
+    
     var placesClient: GMSPlacesClient!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
-    let localisationManager = CLLocationManager()    // <-- scope to class
+    let localisationManager = CLLocationManager()
     
-    
-    
+    //Present the Autocomplete view controller
+    @IBAction func autocompleteClicked(_ sender: UIButton) {
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = self
+        present(autocompleteController, animated: true, completion: nil)
+    }
+  
     func requestAuthorization() {
         localisationManager.requestWhenInUseAuthorization()
     }
@@ -54,11 +62,6 @@ class ViewController: UIViewController{
         }
     }
     
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     @IBAction func getCurrentPlace(_ sender: UIButton) {
         // For getting the user permission to use location service when the app is running
         placesClient.currentPlace(callback: { (placeLikelihoodList, error) -> Void in
@@ -80,8 +83,65 @@ class ViewController: UIViewController{
             }
         })
     }
-}
     
+    
+    
+    
+    // Turn the network activity indicator on and off again.
+    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        // TODO: handle the error.
+        print("Error: ", error.localizedDescription)
+    }
+    
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+}
+//
+//extension ViewController: GMSAutocompleteViewControllerDelegate {
+//    
+//    // Handle the user's selection.
+//    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+//        print("Place name: \(place.name)")
+//        print("Place address: \(place.formattedAddress)")
+//        print("Place attributions: \(place.attributions)")
+//        dismiss(animated: true, completion: nil)
+//    }
+//    
+//    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+//        // TODO: handle the error.
+//        print("Error: ", error.localizedDescription)
+//    }
+//    
+//    // User canceled the operation.
+//    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+//        dismiss(animated: true, completion: nil)
+//    }
+//    
+//    // Turn the network activity indicator on and off again.
+//    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+//        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+//    }
+//    
+//    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+//        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//    }
+//    
+//}
 
 
 
