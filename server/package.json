@@ -1,0 +1,20 @@
+{
+  "name": "where-to-go-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": "6.11.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/language": "^1.1.0",
+    "express": "^4.16.2"
+  }
+}
