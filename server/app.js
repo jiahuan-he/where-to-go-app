@@ -1,7 +1,15 @@
 // Imports the Google Cloud client library
+const language = require('@google-cloud/language');
+
+// Instantiates a client
+const client = new language.LanguageServiceClient();
+
+// app setup
 const express = require("express")
 const app = express()
-const documentAnalizer = require("./documentSentimentAnalizer")
+const sentimentAnalyzer = require("./sentimentAnalyzer")
+const entitiesAnalyzer = require("./entitiesAnalyzer")
+
 const bodyParser = require('body-parser') 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -16,13 +24,30 @@ app.get('/', (req, res) => {
 // But in this case, the length of the query string exceeds 1024 bytes
 // So /post is used instead 
 app.post('/sentiment', (req, res) => {  
-
   
   const content = req.body.content
   const document = {content: content, type: 'PLAIN_TEXT'};
-  documentAnalizer(document, (result) => res.json(result))
-  
+
+  // result: Object:  {
+  //                    "document": {score:number, magnitude: number}, 
+  //                    "sentences": []Object{text: string, score:number, magnitude: number}
+  //                  }
+  sentimentAnalyzer(client, document, (result) => res.json(result))
 })
+
+app.post("/entities", (req, res) => {
+  const content = req.body.content
+  const document = {content: content, type: 'PLAIN_TEXT'};
+
+  const filter = {
+    "minAbsScore": 0.5, 
+    "minMagnitude": 0.5, 
+    "minSalience": null
+  }
+  entitiesAnalyzer(client, document, (result) => res.json(result), filter)
+})
+
+
 
 // Start the server
 const PORT = process.env.PORT || 8081;
