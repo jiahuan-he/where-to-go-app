@@ -27,9 +27,10 @@ func isLocationAllowed() -> Bool{
     }
 }
 
-class ViewController: UIViewController, UITableViewDelegate,  UITableViewDataSource, GMSAutocompleteViewControllerDelegate{
+class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDataSource, GMSAutocompleteViewControllerDelegate{
     
-//    var placesClient: GMSPlacesClient!
+    @IBOutlet weak var currentLocationLabel: UILabel!
+    var placesClient: GMSPlacesClient!
     let localisationManager = CLLocationManager()
     var placeIDs = [String]()
     
@@ -46,12 +47,34 @@ class ViewController: UIViewController, UITableViewDelegate,  UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        placesClient = GMSPlacesClient.shared()
+        placesClient = GMSPlacesClient.shared()
         if !isLocationAllowed() {
             localisationManager.requestWhenInUseAuthorization()
         }
         tableView.delegate = self
         tableView.dataSource = self
+        
+        // Get user's current place
+        placesClient.currentPlace(callback: { (placeLikelihoodList, error) -> Void in
+            if let error = error {
+                print("Pick Place error: \(error.localizedDescription)")
+                return
+            }
+            
+            if let placeLikelihoodList = placeLikelihoodList {
+                
+                for likelihood in placeLikelihoodList.likelihoods {
+                    let place = likelihood.place
+//                    print("Current Place name \(place.name) at likelihood \(likelihood.likelihood)")
+//                    print("Current Place address \(place.formattedAddress)")
+//                    print("Current Place attributions \(place.attributions)")
+//                    print("Current PlaceID \(place.placeID)")
+                    self.currentLocationLabel.text = place.formattedAddress
+                    print(place.placeID)
+                    break
+                }
+            }
+        })
         // temp:
 //        placeIDs.append("place1")
 //        placeIDs.append("place2")
