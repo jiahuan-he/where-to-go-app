@@ -60,6 +60,7 @@ class DetailViewController: UIViewController {
         websiteButton.tintColor = UIColor.white
         
         phoneButton.addTarget(self, action: #selector(self.phoneButtonClicked), for: .touchUpInside)
+        websiteButton.addTarget(self, action: #selector(self.websiteButtonClicked), for: .touchUpInside)
         // Do any additional setup after loading the view.
         loadFirstPhotoForPlace(placeID: (self.place?.placeID)!)
         placeNameLabel.text = place?.name
@@ -69,6 +70,22 @@ class DetailViewController: UIViewController {
         addressLabel.text = address
         
         ratingLabel.text = String(describing: round(Double((100*(place?.rating)!)))/100)
+    }
+    @objc func websiteButtonClicked(){
+        //        let trimmedNumber = self.place!.phoneNumber?.trimmingCharacters(in: .whitespaces)
+        if let url = self.place!.website, UIApplication.shared.canOpenURL(url) {
+            if #available(iOS 10, *) {
+                print("calling")
+                UIApplication.shared.open(url)
+            } else {
+                print("calling")
+                UIApplication.shared.openURL(url)
+            }
+        } else {
+            let alert = UIAlertController(title: "Oops", message: "This place dosen't have a website", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     @objc func phoneButtonClicked(){
