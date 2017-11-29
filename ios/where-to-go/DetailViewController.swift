@@ -22,6 +22,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var websiteButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
     
     /// Return the appropriate text string for the specified |GMSPlacesOpenNowStatus|.
     private func text(for status: GMSPlacesOpenNowStatus) -> String {
