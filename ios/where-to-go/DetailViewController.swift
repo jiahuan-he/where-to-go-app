@@ -12,12 +12,12 @@ import GooglePlaces
 class DetailViewController: UIViewController {
     @IBOutlet weak var imageScrollView: UIScrollView!
     var imageArray = [UIImage]()
-    
+//    var pID = "ChIJc25VPTfxBFMRtGozJ2FokKQ"
+    var place : GMSPlace?
     override func viewDidLoad() {
         super.viewDidLoad()
-        let pID = "ChIJc25VPTfxBFMRtGozJ2FokKQ"
         // Do any additional setup after loading the view.
-        loadFirstPhotoForPlace(placeID: pID)
+        loadFirstPhotoForPlace(placeID: (self.place?.placeID)!)
     }
     
     func loadFirstPhotoForPlace(placeID: String) {
@@ -35,18 +35,7 @@ class DetailViewController: UIViewController {
                 if let photos = photos?.results{
                     for photo in photos{
                         self.loadImageForMetadata(photoMetadata: photo)
-//                        print("new photo")
-//                        print(self.imageArray.count)
                     }
-//                    for i in 0..<self.imageArray.count{
-//                        let imageView = UIImageView()
-//                        imageView.image = self.imageArray[i]
-//                        let xPosition = self.view.frame.width * CGFloat(i)
-//                        imageView.frame = CGRect(x: xPosition, y:0, width: self.imageScrollView.frame.width, height: self.imageScrollView.frame.height)
-//                        self.imageScrollView.contentSize.width = self.imageScrollView.frame.width * CGFloat(i+1)
-//                        self.imageScrollView.addSubview(imageView)
-//                        print("photo index: " , i)
-//                    }
                 }
             }
             
@@ -71,6 +60,11 @@ class DetailViewController: UIViewController {
                 self.imageScrollView.contentSize.width = self.imageScrollView.frame.width * CGFloat(self.photoCount+1)
                 self.imageScrollView.addSubview(imageView)
                 self.photoCount = self.photoCount + 1
+                
+                // Limit number of photos to 6
+                if self.photoCount >= 6 {
+                    return
+                }
             }
         })
     }

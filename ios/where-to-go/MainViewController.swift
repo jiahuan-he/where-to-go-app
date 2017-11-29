@@ -32,7 +32,8 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
     @IBOutlet weak var currentLocationLabel: UILabel!
     var placesClient: GMSPlacesClient!
     let localisationManager = CLLocationManager()
-    var placeIDs = [String]()
+    var places = [GMSPlace]()
+    var placeIndex = 0
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -75,17 +76,13 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
                 }
             }
         })
-        // temp:
-//        placeIDs.append("place1")
-//        placeIDs.append("place2")
-//        placeIDs.append("place3")
-//        placeIDs.append("place4")
     }
+    
 //////////// START => Tableview data source ////////////
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
-        cell.textLabel?.text = placeIDs[indexPath.row]
+        cell.textLabel?.text = places[indexPath.row].name
         return cell
     }
     
@@ -94,11 +91,16 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return placeIDs.count
+        return places.count
     }
     
     
 //////////// END => Tableview data source ////////////
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.placeIndex = indexPath.row
+        performSegue(withIdentifier: "detailVC", sender: self)
+    }
 
 //////////// START => Google Places Controller delegate ////////////
     //Present the Autocomplete view controller
@@ -119,7 +121,7 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
     
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         print("Place attributions: \(place.placeID)")
-        placeIDs.append(place.name )
+        places.append(place)
         tableView.reloadData()
         dismiss(animated: true, completion: nil)
     }
@@ -133,6 +135,22 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
         dismiss(animated: true, completion: nil)
     }
 ////////////    END => Google Places Controller delegate ////////////
+    
+//////////// START => Segues ////////////
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if(segue.identifier == "detailVC"){
+            
+            let vc = segue.destination as! DetailViewController
+            vc.place = self.places[self.placeIndex]
+        }
+    }
+    
+    
+//////////// END => Segues ////////////
+    
     
 }
 
