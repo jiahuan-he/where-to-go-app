@@ -9,15 +9,86 @@
 import UIKit
 import GooglePlaces
 
+extension UIColor {
+    convenience init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int = UInt32()
+        Scanner(string: hex).scanHexInt32(&int)
+        let a, r, g, b: UInt32
+        switch hex.characters.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
+    }
+}
+
 class DetailViewController: UIViewController {
     @IBOutlet weak var imageScrollView: UIScrollView!
     var imageArray = [UIImage]()
 //    var pID = "ChIJc25VPTfxBFMRtGozJ2FokKQ"
     var place : GMSPlace?
+    @IBOutlet weak var placeNameLabel: UILabel!
+    
+    @IBOutlet weak var titleView: UIView!
+    @IBOutlet weak var phoneButton: UIButton!
+    @IBOutlet weak var websiteButton: UIButton!
+    @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    
+    /// Return the appropriate text string for the specified |GMSPlacesOpenNowStatus|.
+    private func text(for status: GMSPlacesOpenNowStatus) -> String {
+        switch status {
+        case .no: return "Closed"
+        case .yes: return "Open"
+        case .unknown: return "Unknown"
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+//        phoneButton.setImage(UIImage(named:#imageLiteral(resourceName: "phone-icon")), for: UIControlState.normal)
+        phoneButton.setImage(#imageLiteral(resourceName: "phone-icon"), for: UIControlState.normal)
+        phoneButton.tintColor = UIColor.white
+        websiteButton.setImage(#imageLiteral(resourceName: "web-icon"), for: UIControlState.normal)
+        websiteButton.tintColor = UIColor.white
+        
+        phoneButton.addTarget(self, action: #selector(self.phoneButtonClicked), for: .touchUpInside)
         // Do any additional setup after loading the view.
         loadFirstPhotoForPlace(placeID: (self.place?.placeID)!)
+        placeNameLabel.text = place?.name
+        
+        let addressArray = place?.formattedAddress?.components(separatedBy: ",")
+        let address = addressArray![0] + ", "+addressArray![1]
+        addressLabel.text = address
+        
+        ratingLabel.text = String(describing: round(Double((100*(place?.rating)!)))/100)
+    }
+    
+    @objc func phoneButtonClicked(){
+        if self.place!.phoneNumber == nil{
+            let alert = UIAlertController(title: "Oops", message: "This place dosen't have phone number", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+//        let trimmedNumber = self.place!.phoneNumber?.trimmingCharacters(in: .whitespaces)
+        let phoneNumber = self.place!.phoneNumber!.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression, range: nil)
+        if let url = URL(string: "tel://\(String(describing: phoneNumber))"), UIApplication.shared.canOpenURL(url) {
+            if #available(iOS 10, *) {
+                print("calling")
+                UIApplication.shared.open(url)
+            } else {
+                    print("calling")
+                UIApplication.shared.openURL(url)
+            }
+        }
     }
     
     func loadFirstPhotoForPlace(placeID: String) {
