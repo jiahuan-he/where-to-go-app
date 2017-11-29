@@ -8,7 +8,13 @@ module.exports = (client, text, callback) => {
     
     client.analyzeSentiment({document: text})        
         .then(results => {
-            const analyzedResult = {"document": {}, "sentences": []}            
+            const analyzedResult = {
+                "document": {}, 
+                "sentences": {
+                    "positive":[], 
+                    "negative":[]
+                }
+            }  
             const sentiment = results[0].documentSentiment;
             const docSentimentScore = sentiment.score 
             const docSentimentMagnitude = sentiment.magnitude
@@ -27,11 +33,15 @@ module.exports = (client, text, callback) => {
                 sentenceResult.text = sentence.text.content
                 sentenceResult.score = sentence.sentiment.score
                 sentenceResult.magnitude = sentence.sentiment.magnitude
-
+                if(sentenceResult.score > 0 && sentenceResult.magnitude>0){
+                    analyzedResult.sentences.positive.push(sentenceResult)
+                } else if(sentenceResult.score < 0 && sentenceResult.magnitude>0){
+                    analyzedResult.sentences.negative.push(sentenceResult)
+                }
                 // console.log(`Sentence: ${sentence.text.content}`);
                 // console.log(`  Score: ${sentence.sentiment.score}`);
                 // console.log(`  Magnitude: ${sentence.sentiment.magnitude}`);
-                analyzedResult.sentences.push(sentenceResult)
+                
         });
             // console.log(analyzedResult.document.score)
             // console.log(analyzedResult.document.magnitude)

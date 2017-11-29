@@ -18,7 +18,7 @@ module.exports = (client, text, callback, filter) => {
         .analyzeEntitySentiment({document: text})
         .then(results => {
         const entities = results[0].entities;
-        console.log('Entities:');
+        // console.log('Entities:');
         entities.forEach(entity => {
             const item = {
                 "name": entity.name, 
