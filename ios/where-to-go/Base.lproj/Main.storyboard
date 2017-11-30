@@ -191,10 +191,10 @@
             </objects>
             <point key="canvasLocation" x="1538" y="-208"/>
         </scene>
-        <!--ReviewanalysisVC-->
+        <!--Review AnalysisVC-->
         <scene sceneID="1Va-Na-H1A">
             <objects>
-                <viewController id="OgI-lB-f2d" customClass="ReviewanalysisVC" customModule="where_to_go" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="OgI-lB-f2d" customClass="ReviewAnalysisVC" customModule="where_to_go" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fOD-o9-ofh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -213,7 +213,7 @@
                         <viewLayoutGuide key="safeArea" id="EDs-0x-GsT"/>
                     </view>
                     <connections>
-                        <outlet property="scrollView" destination="Irq-lo-Iv4" id="UuI-4Y-VSB"/>
+                        <outlet property="scrollView" destination="Irq-lo-Iv4" id="5GO-gc-6Zq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VFk-NH-RtK" userLabel="First Responder" sceneMemberID="firstResponder"/>

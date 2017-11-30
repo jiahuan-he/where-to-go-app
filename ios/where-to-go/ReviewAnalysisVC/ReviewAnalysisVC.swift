@@ -15,8 +15,7 @@ class HeaderView: UIView{
     var titleLabel: UILabel?
     
     let titleHeight = CGFloat(30)
-    override init(frame: CGRect) {
-        
+    override init(frame: CGRect) {        
         super.init(frame: frame)
         self.titleLabel = UILabel()
         self.titleLabel?.font = UIFont.systemFont(ofSize: 25)
@@ -35,7 +34,7 @@ class HeaderView: UIView{
     }
 }
 
-class ReviewanalysisVC: UIViewController {
+class ReviewAnalysisVC: UIViewController {
     
     var currentYPosition = CGFloat(20)
     
@@ -43,19 +42,33 @@ class ReviewanalysisVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSentimentView(text: "a")
         addHeaderView(title: "TITLE1")
-        addSentimentView(text: "a")
-        addSentimentView(text: "a")
+        addReviewView(text: "reviewwwwww", rating: "4.9", author: "me", time: "now")
+        addReviewView(text: "reviewwwwww", rating: "4.9", author: "me", time: "now")
+        
+        addSentimentView(text: "a", score: "0.1", magnitude: "0.2")
+        addSentimentView(text: "a", score: "0.1", magnitude: "0.2")
+        addSentimentView(text: "a", score: "0.1", magnitude: "0.2")
         addHeaderView(title: "TITLE2")
-        addSentimentView(text: "a")
-        addSentimentView(text: "a")
+        addSentimentView(text: "a", score: "0.1", magnitude: "0.2")
+        addSentimentView(text: "a", score: "0.1", magnitude: "0.2")
     }
     
-    func addSentimentView(text: String){
+    func addSentimentView(text: String, score: String, magnitude: String){
         let newView = SentimentView()
         newView.frame.origin.y = currentYPosition
+        newView.setValues(score: score, magnitude: magnitude)
         let newViewHeight =  newView.setText(text: text)
+        currentYPosition = currentYPosition + newViewHeight
+        scrollView.addSubview(newView)
+        scrollView.contentSize.height = currentYPosition * 1.05
+    }
+    
+    func addReviewView(text: String, rating: String, author: String, time: String){
+        let newView = ReviewView()
+        newView.frame.origin.y = currentYPosition
+        newView.setValues(author: author, rating: rating, time: time)
+        let newViewHeight = newView.setText(text: text)
         currentYPosition = currentYPosition + newViewHeight
         scrollView.addSubview(newView)
         scrollView.contentSize.height = currentYPosition * 1.05
@@ -74,16 +87,4 @@ class ReviewanalysisVC: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
