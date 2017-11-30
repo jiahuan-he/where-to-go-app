@@ -45,7 +45,7 @@
                     <connections>
                         <outlet property="currentLocationLabel" destination="s2c-UP-A3d" id="qWh-RN-K7K"/>
                         <outlet property="tableView" destination="6bz-EY-uv4" id="whl-gS-vaV"/>
-                        <segue destination="Qm9-Pk-cWy" kind="show" identifier="detailVC" id="RD9-zI-DdU"/>
+                        <segue destination="Qm9-Pk-cWy" kind="custom" identifier="detailVC" customClass="SegueFromRight" customModule="where_to_go" customModuleProvider="target" id="RD9-zI-DdU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -142,7 +142,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="q3p-eJ-qlY"/>
+                                    <segue destination="BYZ-38-t0r" kind="custom" customClass="SegueFromLeft" customModule="where_to_go" customModuleProvider="target" id="q3p-eJ-qlY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bQX-yj-tHR">
@@ -150,7 +150,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="ANALYSIS OF REVIEWS"/>
                                 <connections>
-                                    <segue destination="OgI-lB-f2d" kind="show" identifier="reviewAnalysisVC" id="h3F-Xk-zKR"/>
+                                    <segue destination="OgI-lB-f2d" kind="show" identifier="reviewAnalysisVC" customClass="SegueFromRight" customModule="where_to_go" customModuleProvider="target" id="h3F-Xk-zKR"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -184,7 +184,7 @@
                                 <rect key="frame" x="0.0" y="637" width="375" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <segue destination="Qm9-Pk-cWy" kind="show" id="COt-LL-aXx"/>
+                                    <segue destination="Qm9-Pk-cWy" kind="show" customClass="SegueFromLeft" customModule="where_to_go" customModuleProvider="target" id="YXs-GO-32E"/>
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Irq-lo-Iv4">

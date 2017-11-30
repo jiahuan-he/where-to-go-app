@@ -93,6 +93,7 @@ class DetailViewController: UIViewController {
             }
         }
     }
+   
     
     func loadFirstPhotoForPlace(placeID: String) {
         GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in

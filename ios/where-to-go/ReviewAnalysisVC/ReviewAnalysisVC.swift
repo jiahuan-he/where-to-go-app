@@ -22,15 +22,14 @@ class ReviewAnalysisVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.addHeaderView(title: "TITLE")
-        let url:String = "\(myURL)/\(place!.placeID)/reviews"
-        print(url)
-        addReviewView(text: "reviewContent", rating: "rating", author: "author", time: "time")
-        Alamofire.request(url).responseJSON(completionHandler: {
+        
+        let getReviewsURL: String = "\(myURL)/\(place!.placeID)/reviews"
+        Alamofire.request(getReviewsURL).responseJSON(completionHandler: {
             response in
             if let result = response.result.value {
                 let reviews = JSON(result)
-                print(reviews)
+//                print(reviews)
+                self.addHeaderView(title: "REVIEWS")
                 for review in reviews["reviews"].arrayValue{
                     let rating = review["rating"].stringValue
                     let author = review["author_name"].stringValue
@@ -38,11 +37,23 @@ class ReviewAnalysisVC: UIViewController {
                     let time = review["relative_time_description"].stringValue
                     self.addReviewView(text: reviewContent, rating: rating, author: author, time: time)
                 }
-                
-                
             }
-        })
-        
+            
+            let getEntitiesURL: String = "\(myURL)/analysis/entities"
+            let parameters: Parameters = ["pid": self.place!.placeID]
+            Alamofire.request(getEntitiesURL, parameters: parameters).responseJSON(completionHandler: { (response) in
+                if let result = response.result.value {
+                    let entities = JSON(result)
+                    self.addHeaderView(title: "ENTITIES' SENTIMENT")
+                    for entity in entities.arrayValue{
+                        let name = entity["name"].stringValue
+                        let magnitude = entity["magnitude"].stringValue.prefix(4)
+                        let score = entity["score"].stringValue.prefix(4)
+                        self.addSentimentView(text: name, score: String(score), magnitude: String(magnitude))
+                    }
+                }
+            })
+        })        
     }
     
     func addSentimentView(text: String, score: String, magnitude: String){

@@ -10,7 +10,7 @@
  */
 module.exports = (client, text, callback, filter) => {    
     
-    const analyzedResult =  {"positive": [], "negative": []}
+    const analyzedResult =  []
     // Detects entities in the document
     client
         .analyzeEntitySentiment({document: text})
@@ -31,10 +31,8 @@ module.exports = (client, text, callback, filter) => {
                 && (!filter.minMagnitude || item.magnitude>=filter.minMagnitude)
                 && (!filter.minSalience || item.salience>=filter.minSalience))
             {
-                if (item.score > 0){
-                    analyzedResult.positive.push(item)
-                } else if(item.score < 0){
-                    analyzedResult.negative.push(item)
+                if (item.score !== 0){
+                    analyzedResult.push(item)
                 }
                 // console.log(`  Name: ${item.name}`);
                 // console.log(`  Type: ${item.type}`);

@@ -22,9 +22,9 @@ class SentimentView: UIView {
     var magnitudeLabel: UILabel?
     var magnitudeValueLabel: UILabel?
     
-    let infoViewHeight = CGFloat(30)
-    let reviewTextViewFont = CGFloat(20)
-    let labelFont = CGFloat(20)
+    let infoViewHeight = CGFloat(28)
+    let reviewTextViewFont = CGFloat(18)
+    let labelFont = CGFloat(18)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
