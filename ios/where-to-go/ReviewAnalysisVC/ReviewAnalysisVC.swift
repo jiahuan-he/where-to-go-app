@@ -9,49 +9,40 @@
 
 
 import UIKit
+import Alamofire
+import GooglePlaces
+import SwiftyJSON
 
-class HeaderView: UIView{
-    
-    var titleLabel: UILabel?
-    
-    let titleHeight = CGFloat(30)
-    override init(frame: CGRect) {        
-        super.init(frame: frame)
-        self.titleLabel = UILabel()
-        self.titleLabel?.font = UIFont.systemFont(ofSize: 25)
-        addSubview(titleLabel!)
-    }
-    
-    func setTitle(title: String) -> CGFloat{
-        titleLabel?.text = title
-        titleLabel?.sizeToFit()
-        self.sizeToFit()
-        return titleHeight
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-}
 
 class ReviewAnalysisVC: UIViewController {
-    
+    var place: GMSPlace?
     var currentYPosition = CGFloat(20)
     
     @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addHeaderView(title: "TITLE1")
-        addReviewView(text: "reviewwwwww", rating: "4.9", author: "me", time: "now")
-        addReviewView(text: "reviewwwwww", rating: "4.9", author: "me", time: "now")
+        self.addHeaderView(title: "TITLE")
+        let url:String = "\(myURL)/\(place!.placeID)/reviews"
+        print(url)
+        addReviewView(text: "reviewContent", rating: "rating", author: "author", time: "time")
+        Alamofire.request(url).responseJSON(completionHandler: {
+            response in
+            if let result = response.result.value {
+                let reviews = JSON(result)
+                print(reviews)
+                for review in reviews["reviews"].arrayValue{
+                    let rating = review["rating"].stringValue
+                    let author = review["author_name"].stringValue
+                    let reviewContent = review["text"].stringValue
+                    let time = review["relative_time_description"].stringValue
+                    self.addReviewView(text: reviewContent, rating: rating, author: author, time: time)
+                }
+                
+                
+            }
+        })
         
-        addSentimentView(text: "a", score: "0.1", magnitude: "0.2")
-        addSentimentView(text: "a", score: "0.1", magnitude: "0.2")
-        addSentimentView(text: "a", score: "0.1", magnitude: "0.2")
-        addHeaderView(title: "TITLE2")
-        addSentimentView(text: "a", score: "0.1", magnitude: "0.2")
-        addSentimentView(text: "a", score: "0.1", magnitude: "0.2")
     }
     
     func addSentimentView(text: String, score: String, magnitude: String){
@@ -67,8 +58,7 @@ class ReviewAnalysisVC: UIViewController {
     func addReviewView(text: String, rating: String, author: String, time: String){
         let newView = ReviewView()
         newView.frame.origin.y = currentYPosition
-        newView.setValues(author: author, rating: rating, time: time)
-        let newViewHeight = newView.setText(text: text)
+        let newViewHeight = newView.setText(text: text, author: author, rating: rating, time: time)
         currentYPosition = currentYPosition + newViewHeight
         scrollView.addSubview(newView)
         scrollView.contentSize.height = currentYPosition * 1.05
@@ -88,3 +78,30 @@ class ReviewAnalysisVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 }
+
+
+class HeaderView: UIView{
+    
+    var titleLabel: UILabel?
+    
+    
+    let titleHeight = CGFloat(30)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.titleLabel = UILabel()
+        self.titleLabel?.font = UIFont.systemFont(ofSize: 25)
+        addSubview(titleLabel!)
+    }
+    
+    func setTitle(title: String) -> CGFloat{
+        titleLabel?.text = title
+        titleLabel?.sizeToFit()
+        self.sizeToFit()
+        return titleHeight
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
+

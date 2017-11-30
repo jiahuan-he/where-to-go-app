@@ -10,6 +10,8 @@ import UIKit
 import GooglePlaces
 import Alamofire
 
+let myURL = "http://localhost:8081"
+
 class DetailViewController: UIViewController {
     @IBOutlet weak var imageScrollView: UIScrollView!
     var imageArray = [UIImage]()
@@ -51,7 +53,7 @@ class DetailViewController: UIViewController {
         let address = addressArray![0] + ", "+addressArray![1]
         addressLabel.text = address
         ratingLabel.text = String(describing: round(Double((100*(place?.rating)!)))/100)
-        Alamofire.request("http://localhost:8081/").responseString(completionHandler: { response in
+        Alamofire.request(myURL).responseString(completionHandler: { response in
             print(response)
         })
     }
@@ -142,15 +144,16 @@ class DetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if(segue.identifier == "reviewAnalysisVC"){
+            let vc = segue.destination as! ReviewAnalysisVC
+            vc.place = self.place!
+        }
     }
-    */
+ 
 
 }

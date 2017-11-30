@@ -4,5 +4,6 @@ target 'where-to-go' do
     pod 'GooglePlaces'
     pod 'SwiftCharts', :git => 'https://github.com/i-schuetz/SwiftCharts.git'
     pod 'Alamofire', '~> 4.5'
+    pod 'SwiftyJSON'
     use_frameworks! //
 end

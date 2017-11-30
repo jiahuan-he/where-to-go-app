@@ -76,6 +76,7 @@ class SentimentView: UIView {
         reviewTextView!.sizeToFit()
         reviewTextView!.isScrollEnabled = false
         infoView?.frame.origin.y = (reviewTextView?.frame.origin.y)! + (reviewTextView?.frame.height)!
+        
         return (reviewTextView?.frame.height)!
     }
     
