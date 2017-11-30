@@ -114,6 +114,10 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
     //Present the Autocomplete view controller
     @IBAction func autocompleteClicked(_ sender: UIButton) {
         let autocompleteController = GMSAutocompleteViewController()
+        let filter = GMSAutocompleteFilter()
+        filter.type = .establishment
+        filter.country = "CA"
+        autocompleteController.autocompleteFilter = filter
         autocompleteController.delegate = self
         present(autocompleteController, animated: true, completion: nil)
     }
