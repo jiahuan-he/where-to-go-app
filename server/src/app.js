@@ -10,6 +10,7 @@ const app = express()
 const sentimentAnalyzer = require("./sentimentAnalyzer")
 const entitiesAnalyzer = require("./entitiesAnalyzer")
 const syntaxAnalyzer = require("./syntaxAnalyzer")
+const sentencesAnalyzer = require("./sentencesAnalyzer")
 const axios = require("axios")
 
 const key = process.env.API_KEY
@@ -85,6 +86,26 @@ app.get("/analysis/entities",(req, res) => {
     const joinedReview = reviews.join("")    
     const document = {content: joinedReview, type: 'PLAIN_TEXT'};
     entitiesAnalyzer(client, document, (result) => res.json(result), filter)    
+  })
+  .catch( (error) => {
+    console.log(error);      
+  })
+})
+
+app.get("/analysis/sentences",(req, res) => {  
+  const pid = req.query.pid
+  console.log(`get /analysis/sentences?pid=${pid}`)
+  axios.get(getURL(pid, key))
+  .then( (googleRes) => {
+    const rawReviews = googleRes.data.result.reviews
+    const reviews = Object.keys(rawReviews).map( (key) => rawReviews[key].text) 
+    const filter = {
+      "minAbsScore": null, 
+      "minMagnitude": null, 
+    }
+    const joinedReview = reviews.join("")    
+    const document = {content: joinedReview, type: 'PLAIN_TEXT'};
+    sentencesAnalyzer(client, document, (result) => res.json(result), filter)    
   })
   .catch( (error) => {
     console.log(error);      

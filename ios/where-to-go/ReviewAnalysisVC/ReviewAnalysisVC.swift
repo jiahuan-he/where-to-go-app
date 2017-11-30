@@ -39,20 +39,36 @@ class ReviewAnalysisVC: UIViewController {
                 }
             }
             
-            let getEntitiesURL: String = "\(myURL)/analysis/entities"
+            let getSentencesURL: String = "\(myURL)/analysis/sentences"
             let parameters: Parameters = ["pid": self.place!.placeID]
-            Alamofire.request(getEntitiesURL, parameters: parameters).responseJSON(completionHandler: { (response) in
+            Alamofire.request(getSentencesURL, parameters: parameters).responseJSON(completionHandler: { (response) in
                 if let result = response.result.value {
-                    let entities = JSON(result)
-                    self.addHeaderView(title: "ENTITIES' SENTIMENT")
-                    for entity in entities.arrayValue{
-                        let name = entity["name"].stringValue
-                        let magnitude = entity["magnitude"].stringValue.prefix(4)
-                        let score = entity["score"].stringValue.prefix(4)
+                    let sentences = JSON(result)
+                    self.addHeaderView(title: "SENTENCES' SENTIMENT")
+                    for sentence in sentences.arrayValue{
+                        let name = sentence["text"].stringValue
+                        let magnitude = sentence["magnitude"].stringValue.prefix(4)
+                        let score = sentence["score"].stringValue.prefix(4)
                         self.addSentimentView(text: name, score: String(score), magnitude: String(magnitude))
                     }
                 }
+                
+                let getEntitiesURL: String = "\(myURL)/analysis/entities"
+                let parameters: Parameters = ["pid": self.place!.placeID]
+                Alamofire.request(getEntitiesURL, parameters: parameters).responseJSON(completionHandler: { (response) in
+                    if let result = response.result.value {
+                        let entities = JSON(result)
+                        self.addHeaderView(title: "ENTITIES' SENTIMENT")
+                        for entity in entities.arrayValue{
+                            let name = entity["name"].stringValue
+                            let magnitude = entity["magnitude"].stringValue.prefix(4)
+                            let score = entity["score"].stringValue.prefix(4)
+                            self.addSentimentView(text: name, score: String(score), magnitude: String(magnitude))
+                        }
+                    }
+                })
             })
+            
         })        
     }
     

@@ -4,8 +4,7 @@
  * @param {Object} text 
  * @param {Function} callback 
  */
-module.exports = (client, text, callback) => {    
-    
+module.exports = (client, text, callback) => {        
     client.analyzeSentiment({document: text})        
         .then(results => {
             const analyzedResult = {
@@ -38,13 +37,7 @@ module.exports = (client, text, callback) => {
                 } else if(sentenceResult.score < 0 && sentenceResult.magnitude>0){
                     analyzedResult.sentences.negative.push(sentenceResult)
                 }
-                // console.log(`Sentence: ${sentence.text.content}`);
-                // console.log(`  Score: ${sentence.sentiment.score}`);
-                // console.log(`  Magnitude: ${sentence.sentiment.magnitude}`);
-                
         });
-            // console.log(analyzedResult.document.score)
-            // console.log(analyzedResult.document.magnitude)
             callback(analyzedResult)
         })
         .catch(err => {
