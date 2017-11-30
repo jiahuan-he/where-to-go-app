@@ -10,6 +10,10 @@
 		3A068DD01FCB6EE80076327F /* GroupedStackedBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A068DCF1FCB6EE80076327F /* GroupedStackedBarVC.swift */; };
 		3A068DD21FCD2CA80076327F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A068DD11FCD2CA80076327F /* DetailViewController.swift */; };
 		3A068DD41FCF73160076327F /* ReviewAnalysisTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A068DD31FCF73160076327F /* ReviewAnalysisTableVC.swift */; };
+		3A068DDD1FCF91770076327F /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A068DDB1FCF91770076327F /* ReviewCell.swift */; };
+		3A068DDE1FCF91770076327F /* ReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A068DDC1FCF91770076327F /* ReviewCell.xib */; };
+		3A068DE01FCF94150076327F /* ReviewanalysisVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A068DDF1FCF94150076327F /* ReviewanalysisVC.swift */; };
+		3A068DE21FCF96150076327F /* SentimentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A068DE11FCF96150076327F /* SentimentView.swift */; };
 		3AB21F991FCA14630022D2EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB21F981FCA14630022D2EE /* AppDelegate.swift */; };
 		3AB21F9B1FCA14630022D2EE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB21F9A1FCA14630022D2EE /* MainViewController.swift */; };
 		3AB21F9E1FCA14630022D2EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AB21F9C1FCA14630022D2EE /* Main.storyboard */; };
@@ -22,6 +26,10 @@
 		3A068DCF1FCB6EE80076327F /* GroupedStackedBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedStackedBarVC.swift; sourceTree = "<group>"; };
 		3A068DD11FCD2CA80076327F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3A068DD31FCF73160076327F /* ReviewAnalysisTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewAnalysisTableVC.swift; sourceTree = "<group>"; };
+		3A068DDB1FCF91770076327F /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
+		3A068DDC1FCF91770076327F /* ReviewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewCell.xib; sourceTree = "<group>"; };
+		3A068DDF1FCF94150076327F /* ReviewanalysisVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewanalysisVC.swift; sourceTree = "<group>"; };
+		3A068DE11FCF96150076327F /* SentimentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimentView.swift; sourceTree = "<group>"; };
 		3AB21F951FCA14630022D2EE /* where-to-go.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "where-to-go.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AB21F981FCA14630022D2EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3AB21F9A1FCA14630022D2EE /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +84,10 @@
 				3A068DCF1FCB6EE80076327F /* GroupedStackedBarVC.swift */,
 				3A068DD11FCD2CA80076327F /* DetailViewController.swift */,
 				3A068DD31FCF73160076327F /* ReviewAnalysisTableVC.swift */,
+				3A068DDB1FCF91770076327F /* ReviewCell.swift */,
+				3A068DDC1FCF91770076327F /* ReviewCell.xib */,
+				3A068DDF1FCF94150076327F /* ReviewanalysisVC.swift */,
+				3A068DE11FCF96150076327F /* SentimentView.swift */,
 			);
 			path = "where-to-go";
 			sourceTree = "<group>";
@@ -160,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AB21FA31FCA14630022D2EE /* LaunchScreen.storyboard in Resources */,
+				3A068DDE1FCF91770076327F /* ReviewCell.xib in Resources */,
 				3AB21FA01FCA14630022D2EE /* Assets.xcassets in Resources */,
 				3AB21F9E1FCA14630022D2EE /* Main.storyboard in Resources */,
 			);
@@ -231,7 +244,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A068DE21FCF96150076327F /* SentimentView.swift in Sources */,
 				3A068DD41FCF73160076327F /* ReviewAnalysisTableVC.swift in Sources */,
+				3A068DE01FCF94150076327F /* ReviewanalysisVC.swift in Sources */,
+				3A068DDD1FCF91770076327F /* ReviewCell.swift in Sources */,
 				3AB21F9B1FCA14630022D2EE /* MainViewController.swift in Sources */,
 				3AB21F991FCA14630022D2EE /* AppDelegate.swift in Sources */,
 				3A068DD01FCB6EE80076327F /* GroupedStackedBarVC.swift in Sources */,

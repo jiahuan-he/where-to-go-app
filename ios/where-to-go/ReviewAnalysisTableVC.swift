@@ -40,8 +40,12 @@ class ReviewAnalysisTableVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "tempCell")
-        cell.textLabel?.text = objectArray[indexPath.section].sectionObjects[indexPath.row]
+//        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "tempCell")
+        let cell = ReviewCell(style: UITableViewCellStyle.default, reuseIdentifier: "tempCell")
+//        cell.textLabel?.text = objectArray[indexPath.section].sectionObjects[indexPath.row]
+        
+        cell.reviewTextView.text = objectArray[indexPath.section].sectionObjects[indexPath.row]
+        
         return cell
     }
  
