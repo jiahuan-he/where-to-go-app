@@ -38,6 +38,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        phoneButton.setImage(UIImage(named:#imageLiteral(resourceName: "phone-icon")), for: UIControlState.normal)
+        self.place = currentPlace
         phoneButton.setImage(#imageLiteral(resourceName: "phone-icon"), for: UIControlState.normal)
         phoneButton.tintColor = UIColor.white
         websiteButton.setImage(#imageLiteral(resourceName: "web-icon"), for: UIControlState.normal)
@@ -93,7 +94,6 @@ class DetailViewController: UIViewController {
             }
         }
     }
-   
     
     func loadFirstPhotoForPlace(placeID: String) {
         GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
@@ -149,12 +149,12 @@ class DetailViewController: UIViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "reviewAnalysisVC"){
-            let vc = segue.destination as! ReviewAnalysisVC
-            vc.place = self.place!
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if(segue.identifier == "reviewAnalysisVC"){
+//            let vc = segue.destination as! ReviewAnalysisVC
+//            vc.place = self.place!
+//        }
+//    }
  
 
 }

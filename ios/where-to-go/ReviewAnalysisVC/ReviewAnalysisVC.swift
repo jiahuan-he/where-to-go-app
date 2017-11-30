@@ -22,7 +22,7 @@ class ReviewAnalysisVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.place = currentPlace
         let getReviewsURL: String = "\(myURL)/\(place!.placeID)/reviews"
         Alamofire.request(getReviewsURL).responseJSON(completionHandler: {
             response in

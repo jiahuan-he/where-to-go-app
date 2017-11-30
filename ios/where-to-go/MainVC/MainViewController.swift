@@ -27,12 +27,14 @@ func isLocationAllowed() -> Bool{
     }
 }
 
+var places = [GMSPlace]()
+var currentPlace: GMSPlace?
 class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDataSource, GMSAutocompleteViewControllerDelegate{
     
     @IBOutlet weak var currentLocationLabel: UILabel!
     var placesClient: GMSPlacesClient!
     let localisationManager = CLLocationManager()
-    var places = [GMSPlace]()
+    
     var placeIndex = 0
     
     @IBOutlet weak var tableView: UITableView!
@@ -104,6 +106,7 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.placeIndex = indexPath.row
+        currentPlace = places[self.placeIndex]
         performSegue(withIdentifier: "detailVC", sender: self)
     }
 
@@ -143,12 +146,12 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
     
 //////////// START => Segues ////////////
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "detailVC"){
-            let vc = segue.destination as! DetailViewController
-            vc.place = self.places[self.placeIndex]
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if(segue.identifier == "detailVC"){
+//            let vc = segue.destination as! DetailViewController
+//            vc.place = places[self.placeIndex]
+//        }
+//    }
     
     
 //////////// END => Segues ////////////
