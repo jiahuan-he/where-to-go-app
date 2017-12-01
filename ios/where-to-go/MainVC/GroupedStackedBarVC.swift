@@ -125,12 +125,7 @@ struct ChartDefaults {
         return 5
     }
 }
-var groupsData: [(title: String, bars: [(start: Double, quantities: [Double])])] =
-    [
-        ("B", [(0, [25, 40, 10])    ]),
-        ("C", [(0, [-15, -30, -10]) ]),
-        ("D", [(0, [-20, -10, -10]) ])
-]
+var groupsData = [(title: String, bars: [(start: Double, quantities: [Double])])]()
 
 class GroupedStackedBarVC: UIViewController {
 
@@ -142,14 +137,16 @@ class GroupedStackedBarVC: UIViewController {
     fileprivate func barsChart(horizontal: Bool) -> Chart {
         let labelSettings = ChartLabelSettings(font: ChartDefaults.labelFont)
         
-        let colorN3 = UIColor(red: 232, green: 0, blue: 0)
-        let colorN2 = UIColor(red: 232, green: 100, blue: 0)
-        let colorN1 = UIColor(red: 232, green: 170, blue: 0)
-        let colorP1 = UIColor(red: 208, green: 232, blue: 0)
-        let colorP2 = UIColor(red: 166, green: 232, blue: 0)
-        let colorP3 = UIColor(red: 88, green: 232, blue: 0)
+        let colorN4 = UIColor(red: 255, green: 0, blue: 0)
+        let colorN3 = UIColor(red: 255, green: 100, blue: 0)
+        let colorN2 = UIColor(red: 255, green: 180, blue: 0)
+        let colorN1 = UIColor(red: 255, green: 220, blue: 0)
+        let colorP1 = UIColor(red: 230, green: 255, blue: 0)
+        let colorP2 = UIColor(red: 200, green: 255, blue: 0)
+        let colorP3 = UIColor(red: 140, green: 255, blue: 0)
+        let colorP4 = UIColor(red: 100, green: 255, blue: 0)
         
-        let frameColors = [colorN3, colorN2, colorN1, colorP1, colorP2, colorP3,]
+        let frameColors = [colorN4, colorN3, colorN2, colorN1, colorP1, colorP2, colorP3,colorP4]
         
         let groups: [ChartPointsBarGroup<ChartStackedBarModel>] = groupsData.enumerated().map {index, entry in
             let constant = ChartAxisValueDouble(Double(index))
@@ -163,18 +160,24 @@ class GroupedStackedBarVC: UIViewController {
         }
         
         let letterAxisValues = [ChartAxisValueString(order: -1)] +
-            groupsData.enumerated().map {index, tuple in ChartAxisValueString(tuple.0, order: index, labelSettings: labelSettings)} +
+            groupsData.enumerated().map {index, tuple in
+                var title = tuple.title
+                if !horizontal{
+                    title = String(title.prefix(15))
+                }
+                return ChartAxisValueString(title, order: index, labelSettings: labelSettings)
+            } +
             [ChartAxisValueString(order: groupsData.count)]
         
         
-        let numberAxisValuesGenerator = ChartAxisGeneratorMultiplier(20)
+        let numberAxisValuesGenerator = ChartAxisGeneratorMultiplier(5)
         let numberAxisLabelsGenerator = ChartAxisLabelsGeneratorFunc {scalar in
             return ChartAxisLabel(text: "\(scalar)", settings: labelSettings)
         }
         
-        let m1 = ChartAxisModel(firstModelValue: -110, lastModelValue: 100, axisTitleLabels: [ChartAxisLabel(text: "Axis title", settings: horizontal ? labelSettings : labelSettings.defaultVertical())], axisValuesGenerator: numberAxisValuesGenerator, labelsGenerator: numberAxisLabelsGenerator)
+        let m1 = ChartAxisModel(firstModelValue: -20, lastModelValue: 20, axisTitleLabels: [ChartAxisLabel(text: "MAGNITUDE", settings: horizontal ? labelSettings : labelSettings.defaultVertical())], axisValuesGenerator: numberAxisValuesGenerator, labelsGenerator: numberAxisLabelsGenerator)
         
-        let m2 = ChartAxisModel(axisValues: letterAxisValues, axisTitleLabel: ChartAxisLabel(text: "Axis title", settings: horizontal ? labelSettings.defaultVertical() : labelSettings))
+        let m2 = ChartAxisModel(axisValues: letterAxisValues, axisTitleLabel: ChartAxisLabel(text: "PLACES", settings: horizontal ? labelSettings.defaultVertical() : labelSettings))
         
         let (xModel, yModel) = horizontal ? (m1, m2) : (m2, m1)
         
@@ -249,24 +252,32 @@ class GroupedStackedBarVC: UIViewController {
                     let pid = place.placeID
                     let title = place.name
                     let score = sentimentData[pid]?.dictionaryValue["score"]!.doubleValue.rounded(toPlaces: 4)
-                    let magnitude = sentimentData[pid]?.dictionaryValue["magnitude"]!.doubleValue.rounded(toPlaces: 4)
+                    var magnitude = sentimentData[pid]?.dictionaryValue["magnitude"]!.doubleValue.rounded(toPlaces: 4)
                     print(title)
                     print(score!)
                     print(magnitude as Any)
-                    var quantity: [Double] = [0, 0, 0, 0, 0, 0]
+                    var quantity: [Double] = [0, 0, 0, 0, 0, 0, 0, 0]
                     var index = 0
-                    if score! < -0.66 {
+                    if score! < -0.75 {
+                        magnitude = -magnitude!
                         index = 0
-                    } else if score! < -0.33 {
+                    } else if score! < -0.50 {
+                        magnitude = -magnitude!
                         index = 1
-                    } else if score! < 0 {
+                    } else if score! < -0.25 {
+                        magnitude = -magnitude!
                         index = 2
-                    } else if score! < 0.33 {
+                    }else if score! < 0 {
+                        magnitude = -magnitude!
                         index = 3
-                    } else if score! < 0.66 {
+                    } else if score! < 0.25 {
                         index = 4
-                    } else {
+                    } else if score! < 0.50 {
                         index = 5
+                    } else if score! < 0.70 {
+                        index = 6
+                    } else {
+                        index = 7
                     }
                     quantity[index] = magnitude!
                     groupsData.append((title, [(0, quantity)]))
