@@ -116,20 +116,23 @@ app.get("/analysis/sentences",(req, res) => {
 app.post("/analysis/sentiment",(req, res) => {
   console.log("post /analysis/sentiment")
   const pids = req.body.pids
+  console.log(pids)
   const count = pids.length
   let i = 0
-  const joinedReviewArray = []
+  const documents = {}
   pids.forEach(pid => {
     axios.get(getURL(pid, key))
     .then( (googleRes) => {
-      const rawReviews = googleRes.data.result.reviews
+      const rawReviews = googleRes.data.result.reviews      
       const reviews = Object.keys(rawReviews).map( (key) => rawReviews[key].text) 
       const joinedReview = reviews.join("")    
-      joinedReviewArray.push(joinedReview)
+      // console.log(joinedReview)
+      console.log()
+      console.log()
+      documents[pid] = {content: joinedReview, type: 'PLAIN_TEXT'}
       i++
       if(i >= count){
-        const document = {content: joinedReviewArray.join(""), type: 'PLAIN_TEXT'};      
-        sentimentAnalyzer(client, document, (result) => res.json(result))
+        sentimentAnalyzer(client, documents, (result) => res.json(result))
       }
     })
     .catch( (error) => {

@@ -9,7 +9,16 @@
 import UIKit
 import GooglePlaces
 import CoreLocation
+import Alamofire
+import SwiftyJSON
 
+extension Double {
+    /// Rounds the double to decimal places value
+    func rounded(toPlaces places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
+}
 
 func isLocationAllowed() -> Bool{
     if CLLocationManager.locationServicesEnabled() {
@@ -29,6 +38,7 @@ func isLocationAllowed() -> Bool{
 
 var places = [GMSPlace]()
 var currentPlace: GMSPlace?
+var sentimentData = [String: [String: Double]]()
 class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDataSource, GMSAutocompleteViewControllerDelegate{
     
     @IBOutlet weak var currentLocationLabel: UILabel!
@@ -146,17 +156,60 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
     func wasCancelled(_ viewController: GMSAutocompleteViewController) {
         dismiss(animated: true, completion: nil)
     }
+    @IBAction func segueToStackedBarVC(_ sender: UIButton) {
+        performSegue(withIdentifier: "StackedBarVC", sender: self)
+    }
+    
+    
 ////////////    END => Google Places Controller delegate ////////////
     
 //////////// START => Segues ////////////
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if(segue.identifier == "detailVC"){
-//            let vc = segue.destination as! DetailViewController
-//            vc.place = places[self.placeIndex]
-//        }
-//    }
     
+//    @IBAction func segueToBarVC(_ sender: UIButton) {
+//        let getSentimentURL: String = "\(myURL)/analysis/sentiment"
+//        let parameter = ["pids": places.map({
+//            (place: GMSPlace) -> String in
+//            return place.placeID
+//        })]
+//        
+//        Alamofire.request(getSentimentURL, method: .post, parameters: parameter).responseJSON(completionHandler: {
+//            response in
+//            if let result = response.result.value {
+//                let sentimentData = JSON(result).dictionaryValue
+//                print(sentimentData)
+//                for place in places{
+//                    let pid = place.placeID
+//                    let title = place.name
+//                    let score = sentimentData[pid]?.dictionaryValue["score"]!.doubleValue.rounded(toPlaces: 4)
+//                    let magnitude = sentimentData[pid]?.dictionaryValue["magnitude"]!.doubleValue.rounded(toPlaces: 4)
+//                    print(title)
+//                    print(score!)
+//                    print(magnitude as Any)
+//                    var quantity: [Double] = Array.init(repeating: 0, count: 6)
+//                    var index = 0
+//                    if score! < -0.66 {
+//                        index = 0
+//                    } else if score! < -0.33 {
+//                        index = 1
+//                    } else if score! < 0 {
+//                        index = 2
+//                    } else if score! < 0.33 {
+//                        index = 3
+//                    } else if score! < 0.66 {
+//                        index = 4
+//                    } else {
+//                        index = 5
+//                    }
+//                    quantity.insert(magnitude!, at: index)
+//                    groupsData.append((title, [(0, quantity)]))
+//                }
+//                print("start", Date())
+//                self.performSegue(withIdentifier: "StackedBarVC", sender: self)
+//            }
+//        }
+//        )
+//    }
     
 //////////// END => Segues ////////////
     

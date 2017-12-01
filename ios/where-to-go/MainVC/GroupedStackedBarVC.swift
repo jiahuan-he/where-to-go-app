@@ -8,8 +8,29 @@
 
 import UIKit
 import SwiftCharts
-struct ChartDefaults {
+import Alamofire
+import SwiftyJSON
+import GooglePlaces
+
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
     
+    convenience init(rgb: Int) {
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF
+        )
+    }
+}
+
+struct ChartDefaults {
     static var chartSettings: ChartSettings {
 //        if Env.iPad {
 //            return iPadChartSettings
@@ -104,7 +125,12 @@ struct ChartDefaults {
         return 5
     }
 }
-
+var groupsData: [(title: String, bars: [(start: Double, quantities: [Double])])] =
+    [
+        ("B", [(0, [25, 40, 10])    ]),
+        ("C", [(0, [-15, -30, -10]) ]),
+        ("D", [(0, [-20, -10, -10]) ])
+]
 
 class GroupedStackedBarVC: UIViewController {
 
@@ -116,42 +142,14 @@ class GroupedStackedBarVC: UIViewController {
     fileprivate func barsChart(horizontal: Bool) -> Chart {
         let labelSettings = ChartLabelSettings(font: ChartDefaults.labelFont)
         
-        let groupsData: [(title: String, bars: [(start: Double, quantities: [Double])])] = [
-            ("Vendasta", [
-                (0,
-                 [-30]
-                )
-                ]),
-            ("B", [
-                (0,
-                 [25, 40, 10]
-                )
-                ]),
-            ("C", [
-                (0,
-                 [-15, -30, -10]
-                ),
-                (0,
-                 [-10, -10, -5]
-                ),
-                (0,
-                 [15, 30, 10]
-                )
-                ]),
-            ("D", [
-                (0,
-                 [-20, -10, -10]
-                ),
-                (0,
-                 [30, 15, 27]
-                ),
-                (0,
-                 [8, 10, 25]
-                )
-                ])
-        ]
+        let colorN3 = UIColor(red: 232, green: 0, blue: 0)
+        let colorN2 = UIColor(red: 232, green: 100, blue: 0)
+        let colorN1 = UIColor(red: 232, green: 170, blue: 0)
+        let colorP1 = UIColor(red: 208, green: 232, blue: 0)
+        let colorP2 = UIColor(red: 166, green: 232, blue: 0)
+        let colorP3 = UIColor(red: 88, green: 232, blue: 0)
         
-        let frameColors = [UIColor.red.withAlphaComponent(0.6), UIColor.blue.withAlphaComponent(0.6), UIColor.green.withAlphaComponent(0.6)]
+        let frameColors = [colorN3, colorN2, colorN1, colorP1, colorP2, colorP3,]
         
         let groups: [ChartPointsBarGroup<ChartStackedBarModel>] = groupsData.enumerated().map {index, entry in
             let constant = ChartAxisValueDouble(Double(index))
@@ -227,19 +225,60 @@ class GroupedStackedBarVC: UIViewController {
     
     
     fileprivate func showChart(horizontal: Bool) {
-        self.chart?.clearView()
         
+        
+        self.chart?.clearView()
         let chart = barsChart(horizontal: horizontal)
         view.addSubview(chart.view)
         self.chart = chart
     }
     
     override func viewDidLoad() {
-        showChart(horizontal: false)
-        if let chart = chart {
-            let dirSelector = DirSelector(frame: CGRect(x: 0, y: chart.frame.origin.y + chart.frame.size.height, width: view.frame.size.width, height: dirSelectorHeight), controller: self)
-            view.addSubview(dirSelector)
+        let getSentimentURL: String = "\(myURL)/analysis/sentiment"
+        let parameter = ["pids": places.map({
+            (place: GMSPlace) -> String in
+            return place.placeID
+        })]
+        
+        Alamofire.request(getSentimentURL, method: .post, parameters: parameter).responseJSON(completionHandler: {
+            response in
+            if let result = response.result.value {
+                let sentimentData = JSON(result).dictionaryValue
+                print(sentimentData)
+                for place in places{
+                    let pid = place.placeID
+                    let title = place.name
+                    let score = sentimentData[pid]?.dictionaryValue["score"]!.doubleValue.rounded(toPlaces: 4)
+                    let magnitude = sentimentData[pid]?.dictionaryValue["magnitude"]!.doubleValue.rounded(toPlaces: 4)
+                    print(title)
+                    print(score!)
+                    print(magnitude as Any)
+                    var quantity: [Double] = [0, 0, 0, 0, 0, 0]
+                    var index = 0
+                    if score! < -0.66 {
+                        index = 0
+                    } else if score! < -0.33 {
+                        index = 1
+                    } else if score! < 0 {
+                        index = 2
+                    } else if score! < 0.33 {
+                        index = 3
+                    } else if score! < 0.66 {
+                        index = 4
+                    } else {
+                        index = 5
+                    }
+                    quantity[index] = magnitude!
+                    groupsData.append((title, [(0, quantity)]))
+                }
+                self.showChart(horizontal: false)
+                if let chart = self.chart {
+                    let dirSelector = DirSelector(frame: CGRect(x: 0, y: chart.frame.origin.y + chart.frame.size.height, width: self.view.frame.size.width, height: self.dirSelectorHeight), controller: self)
+                    self.view.addSubview(dirSelector)
+                }
+            }
         }
+        )
     }
     
     class DirSelector: UIView {
