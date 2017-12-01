@@ -233,13 +233,17 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="I71-6p-ptq"/>
                     </view>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="mainVC" id="xd6-JC-Y4E"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jHe-zA-CJZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-194" y="548"/>
+            <point key="canvasLocation" x="-194.40000000000001" y="680.5097451274363"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="RD9-zI-DdU"/>
+        <segue reference="xd6-JC-Y4E"/>
     </inferredMetricsTieBreakers>
 </document>

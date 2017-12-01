@@ -12,6 +12,13 @@ import Alamofire
 import SwiftyJSON
 import GooglePlaces
 
+func screenHeight() -> CGFloat{
+    let screenSize = UIScreen.main.bounds
+    let screenHeight = screenSize.height
+    return screenHeight
+
+}
+
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
@@ -129,14 +136,15 @@ var groupsData = [(title: String, bars: [(start: Double, quantities: [Double])])
 
 class GroupedStackedBarVC: UIViewController {
 
-   
+    func segueToMain() {
+        performSegue(withIdentifier: "mainVC", sender: self)
+    }
     fileprivate var chart: Chart?
     
     fileprivate let dirSelectorHeight: CGFloat = 50
     
     fileprivate func barsChart(horizontal: Bool) -> Chart {
         let labelSettings = ChartLabelSettings(font: ChartDefaults.labelFont)
-        
         let colorN4 = UIColor(red: 255, green: 0, blue: 0)
         let colorN3 = UIColor(red: 255, green: 100, blue: 0)
         let colorN2 = UIColor(red: 255, green: 180, blue: 0)
@@ -162,7 +170,7 @@ class GroupedStackedBarVC: UIViewController {
         let letterAxisValues = [ChartAxisValueString(order: -1)] +
             groupsData.enumerated().map {index, tuple in
                 var title = tuple.title
-                if !horizontal{
+                if title.count > 15{
                     title = String(title.prefix(15))
                 }
                 return ChartAxisValueString(title, order: index, labelSettings: labelSettings)
@@ -228,8 +236,6 @@ class GroupedStackedBarVC: UIViewController {
     
     
     fileprivate func showChart(horizontal: Bool) {
-        
-        
         self.chart?.clearView()
         let chart = barsChart(horizontal: horizontal)
         view.addSubview(chart.view)
@@ -253,9 +259,6 @@ class GroupedStackedBarVC: UIViewController {
                     let title = place.name
                     let score = sentimentData[pid]?.dictionaryValue["score"]!.doubleValue.rounded(toPlaces: 4)
                     var magnitude = sentimentData[pid]?.dictionaryValue["magnitude"]!.doubleValue.rounded(toPlaces: 4)
-                    print(title)
-                    print(score!)
-                    print(magnitude as Any)
                     var quantity: [Double] = [0, 0, 0, 0, 0, 0, 0, 0]
                     var index = 0
                     if score! < -0.75 {
@@ -294,43 +297,50 @@ class GroupedStackedBarVC: UIViewController {
     
     class DirSelector: UIView {
         
-        let horizontal: UIButton
-        let vertical: UIButton
-        
+        let horizontalButton: UIButton
+        let verticalButton: UIButton
         weak var controller: GroupedStackedBarVC?
         
         fileprivate let buttonDirs: [UIButton : Bool]
         
         init(frame: CGRect, controller: GroupedStackedBarVC) {
-            
             self.controller = controller
+            horizontalButton = UIButton()
+            horizontalButton.setTitle("          ", for: UIControlState())
+            verticalButton = UIButton()
+            verticalButton.setTitle("        ", for: UIControlState())
             
-            horizontal = UIButton()
-            horizontal.setTitle("Horizontal", for: UIControlState())
-            vertical = UIButton()
-            vertical.setTitle("Vertical", for: UIControlState())
-            
-            buttonDirs = [horizontal: true, vertical: false]
+            buttonDirs = [horizontalButton: true, verticalButton: false]
             
             super.init(frame: frame)
             
-            addSubview(horizontal)
-            addSubview(vertical)
-            
-            for button in [horizontal, vertical] {
+            let backButton = UIButton()
+            backButton.addTarget(self, action: #selector(self.back), for: .touchUpInside)
+            backButton.setTitle("BACK", for: .normal)
+            backButton.frame = CGRect(x: 0, y: 20, width: screenWidth(), height: 30)
+            backButton.backgroundColor = UIColor(red: 243, green: 129, blue: 129)
+            addSubview(horizontalButton)
+            addSubview(verticalButton)
+            addSubview(backButton)
+            for button in [horizontalButton, verticalButton] {
                 button.titleLabel?.font = ChartDefaults.fontWithSize(14)
                 button.setTitleColor(UIColor.blue, for: UIControlState())
                 button.addTarget(self, action: #selector(DirSelector.buttonTapped(_:)), for: .touchUpInside)
             }
         }
         
+        @objc func back(){
+            self.controller?.segueToMain()
+        }
+        
         @objc func buttonTapped(_ sender: UIButton) {
-            let horizontal = sender == self.horizontal ? true : false
-            controller?.showChart(horizontal: horizontal)
+//            let horizontal = sender == self.horizontalButton ? true : false
+//            controller?.showChart(horizontal: horizontal)
+//            performSegue(withIdentifier: "mainVC", sender: self)
         }
         
         override func didMoveToSuperview() {
-            let views = [horizontal, vertical]
+            let views = [horizontalButton, verticalButton]
             for v in views {
                 v.translatesAutoresizingMaskIntoConstraints = false
             }
