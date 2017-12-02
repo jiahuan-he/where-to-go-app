@@ -40,6 +40,7 @@ var places = [GMSPlace]()
 var currentPlace: GMSPlace?
 var sentimentData = [String: [String: Double]]()
 class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDataSource, GMSAutocompleteViewControllerDelegate{
+    @IBOutlet weak var compareButton: UIButton!
     
     @IBOutlet weak var currentLocationLabel: UILabel!
     var placesClient: GMSPlacesClient!
@@ -65,6 +66,14 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if places.count == 0 {
+            compareButton.isEnabled = false
+            compareButton.backgroundColor = compareButton.backgroundColor?.withAlphaComponent(0.3)
+        } else {
+            compareButton.isEnabled = true
+            compareButton.backgroundColor = compareButton.backgroundColor?.withAlphaComponent(1)
+        }
+        
         placesClient = GMSPlacesClient.shared()
         if !isLocationAllowed() {
             localisationManager.requestWhenInUseAuthorization()
@@ -87,7 +96,9 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
 //                    print("Current Place address \(place.formattedAddress)")
 //                    print("Current Place attributions \(place.attributions)")
 //                    print("Current PlaceID \(place.placeID)")
-                    self.currentLocationLabel.text = place.formattedAddress
+                    let addressArray = place.formattedAddress?.components(separatedBy: ",")
+                    let address = addressArray![0] + ", "+addressArray![1]
+                    self.currentLocationLabel.text = address
                     print(place.placeID)
                     break
                 }
@@ -100,6 +111,9 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
         cell.textLabel?.text = places[indexPath.row].name
+        cell.textLabel?.textColor = UIColor.white
+        cell.backgroundColor = UIColor(red: 252, green: 207, blue: 77)
+        cell.textLabel?.font = UIFont(name: "ArialRoundedMTBold", size: 18)
         return cell
     }
     
@@ -146,6 +160,8 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
         places.append(place)
         tableView.reloadData()
         dismiss(animated: true, completion: nil)
+        compareButton.isEnabled = true
+        compareButton.backgroundColor = compareButton.backgroundColor?.withAlphaComponent(1)
     }
     
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
@@ -157,6 +173,8 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
         dismiss(animated: true, completion: nil)
     }
     @IBAction func segueToStackedBarVC(_ sender: UIButton) {
+        groupsData.removeAll()
+//        groupsData = [(title: String, bars: [(start: Double, quantities: [Double])])]()
         performSegue(withIdentifier: "StackedBarVC", sender: self)
     }
     

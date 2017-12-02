@@ -144,6 +144,7 @@ class GroupedStackedBarVC: UIViewController {
     fileprivate let dirSelectorHeight: CGFloat = 50
     
     fileprivate func barsChart(horizontal: Bool) -> Chart {
+
         let labelSettings = ChartLabelSettings(font: ChartDefaults.labelFont)
         let colorN4 = UIColor(red: 255, green: 0, blue: 0)
         let colorN3 = UIColor(red: 255, green: 100, blue: 0)
@@ -170,8 +171,8 @@ class GroupedStackedBarVC: UIViewController {
         let letterAxisValues = [ChartAxisValueString(order: -1)] +
             groupsData.enumerated().map {index, tuple in
                 var title = tuple.title
-                if title.count > 15{
-                    title = String(title.prefix(15))
+                if title.count > 12{
+                    title = String(title.prefix(12))
                 }
                 return ChartAxisValueString(title, order: index, labelSettings: labelSettings)
             } +
@@ -185,7 +186,7 @@ class GroupedStackedBarVC: UIViewController {
         
         let m1 = ChartAxisModel(firstModelValue: -20, lastModelValue: 20, axisTitleLabels: [ChartAxisLabel(text: "MAGNITUDE", settings: horizontal ? labelSettings : labelSettings.defaultVertical())], axisValuesGenerator: numberAxisValuesGenerator, labelsGenerator: numberAxisLabelsGenerator)
         
-        let m2 = ChartAxisModel(axisValues: letterAxisValues, axisTitleLabel: ChartAxisLabel(text: "PLACES", settings: horizontal ? labelSettings.defaultVertical() : labelSettings))
+        let m2 = ChartAxisModel(axisValues: letterAxisValues, axisTitleLabel: ChartAxisLabel(text: "", settings: horizontal ? labelSettings.defaultVertical() : labelSettings))
         
         let (xModel, yModel) = horizontal ? (m1, m2) : (m2, m1)
         
@@ -237,13 +238,15 @@ class GroupedStackedBarVC: UIViewController {
     
     fileprivate func showChart(horizontal: Bool) {
         self.chart?.clearView()
-        let chart = barsChart(horizontal: horizontal)
+//        let chart = barsChart(horizontal: horizontal)
+        let chart = barsChart(horizontal: true)
         view.addSubview(chart.view)
         self.chart = chart
     }
     
     override func viewDidLoad() {
         let getSentimentURL: String = "\(myURL)/analysis/sentiment"
+        groupsData.removeAll()
         let parameter = ["pids": places.map({
             (place: GMSPlace) -> String in
             return place.placeID
@@ -317,8 +320,9 @@ class GroupedStackedBarVC: UIViewController {
             let backButton = UIButton()
             backButton.addTarget(self, action: #selector(self.back), for: .touchUpInside)
             backButton.setTitle("BACK", for: .normal)
-            backButton.frame = CGRect(x: 0, y: 20, width: screenWidth(), height: 30)
-            backButton.backgroundColor = UIColor(red: 243, green: 129, blue: 129)
+            backButton.frame = CGRect(x: 0, y: 10, width: screenWidth(), height: 40)
+            backButton.backgroundColor = UIColor(red: 165, green: 233, blue: 219)
+            backButton.titleLabel?.font = UIFont(name: "ArialRoundedMTBold", size: 17)
             addSubview(horizontalButton)
             addSubview(verticalButton)
             addSubview(backButton)
