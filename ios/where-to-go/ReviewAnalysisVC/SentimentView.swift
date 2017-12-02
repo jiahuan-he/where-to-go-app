@@ -30,30 +30,38 @@ class SentimentView: UIView {
         super.init(frame: frame)
         reviewTextView = UITextView()
         reviewTextView!.frame = CGRect(x: 0, y: 0, width: screenWidth(), height: 0)
-        reviewTextView?.font = UIFont.systemFont(ofSize: reviewTextViewFont)
+        reviewTextView?.font = Fonts.reviewContent
+        reviewTextView?.textColor = Colors.text
+        reviewTextView?.backgroundColor = Colors.reviewBackground
         self.addSubview(reviewTextView!)
         infoView = UIView()
-        infoView!.frame = CGRect(x: 0, y: 0, width: screenWidth(),height: 20)
+        infoView!.frame = CGRect(x: textOffset, y: 0, width: screenWidth(),height: 20)
         
         scoreLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         scoreLabel?.text = "Score: "
-        scoreLabel?.font = UIFont.systemFont(ofSize: labelFont)
+        scoreLabel?.font = Fonts.reviewContent
         scoreLabel?.sizeToFit()
+        scoreLabel?.textColor = Colors.text
         
         magnitudeLabel = UILabel(frame: CGRect(x: screenWidth()/3, y: 0, width: 0, height: 0))
         magnitudeLabel?.text = "Magnitude: "
-        magnitudeLabel?.font = UIFont.systemFont(ofSize: labelFont)
+        magnitudeLabel?.font = Fonts.reviewContent
         magnitudeLabel?.sizeToFit()
+        magnitudeLabel?.textColor = Colors.text
         
         scoreValueLabel = UILabel(frame: CGRect(x: (scoreLabel?.frame.width)!, y: 0, width: 0, height: 0))
-        scoreValueLabel?.font = UIFont.systemFont(ofSize: labelFont)
+        scoreValueLabel?.font = Fonts.reviewContent
+        scoreValueLabel?.textColor = Colors.text
         magnitudeValueLabel = UILabel(frame: CGRect(x: (magnitudeLabel?.frame.origin.x)! + (magnitudeLabel?.frame.width)!, y: 0, width: 0, height: 0))
-        magnitudeValueLabel?.font = UIFont.systemFont(ofSize: labelFont)
+        magnitudeValueLabel?.font = Fonts.reviewContent
+        magnitudeValueLabel?.textColor = Colors.text
         
         infoView?.addSubview(scoreLabel!)
         infoView?.addSubview(magnitudeLabel!)
         infoView?.addSubview(scoreValueLabel!)
         infoView?.addSubview(magnitudeValueLabel!)
+        
+        self.backgroundColor = Colors.reviewBackground
         
         self.addSubview(infoView!)
     }
@@ -63,11 +71,33 @@ class SentimentView: UIView {
         scoreValueLabel?.sizeToFit()
         magnitudeValueLabel?.text = magnitude
         magnitudeValueLabel?.sizeToFit()
+        
+        if Double(score)! < -0.75 {
+            self.scoreValueLabel?.textColor = Colors.colorN4
+        } else if Double(score)! < -0.50 {
+            self.scoreValueLabel?.textColor = Colors.colorN3
+        } else if Double(score)! < -0.25 {
+            self.scoreValueLabel?.textColor = Colors.colorN2
+        } else if Double(score)! < 0 {
+            self.scoreValueLabel?.textColor = Colors.colorN1
+        } else if Double(score)! < 0.25 {
+            self.scoreValueLabel?.textColor = Colors.colorP1
+        } else if Double(score)! < 0.50 {
+            self.scoreValueLabel?.textColor = Colors.colorP2
+        } else if Double(score)! < 0.70 {
+            self.scoreValueLabel?.textColor = Colors.colorP3
+        } else {
+            self.scoreValueLabel?.textColor = Colors.colorP4
+        }
+//        self.sizeToFit()
     }
     
     func setText(text: String) -> CGFloat{
         reviewTextView?.text = text
-        return adjustTextViewHeight() + infoViewHeight
+        let totalHeight = adjustTextViewHeight() + infoViewHeight
+//        self.frame.size.height = totalHeight
+//        self.frame.size.width = screenWidth()
+        return totalHeight
     }
     
     func adjustTextViewHeight() -> CGFloat
@@ -76,7 +106,6 @@ class SentimentView: UIView {
         reviewTextView!.sizeToFit()
         reviewTextView!.isScrollEnabled = false
         infoView?.frame.origin.y = (reviewTextView?.frame.origin.y)! + (reviewTextView?.frame.height)!
-        
         return (reviewTextView?.frame.height)!
     }
     

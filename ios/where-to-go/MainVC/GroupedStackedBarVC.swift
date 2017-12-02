@@ -321,8 +321,8 @@ class GroupedStackedBarVC: UIViewController {
             backButton.addTarget(self, action: #selector(self.back), for: .touchUpInside)
             backButton.setTitle("BACK", for: .normal)
             backButton.frame = CGRect(x: 0, y: 10, width: screenWidth(), height: 40)
-            backButton.backgroundColor = UIColor(red: 165, green: 233, blue: 219)
-            backButton.titleLabel?.font = UIFont(name: "ArialRoundedMTBold", size: 17)
+            backButton.backgroundColor = Colors.backButtons
+            backButton.titleLabel?.font = Fonts.backButtons
             addSubview(horizontalButton)
             addSubview(verticalButton)
             addSubview(backButton)

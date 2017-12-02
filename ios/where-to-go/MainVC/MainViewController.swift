@@ -112,8 +112,8 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
         cell.textLabel?.text = places[indexPath.row].name
         cell.textLabel?.textColor = UIColor.white
-        cell.backgroundColor = UIColor(red: 252, green: 207, blue: 77)
-        cell.textLabel?.font = UIFont(name: "ArialRoundedMTBold", size: 18)
+        cell.backgroundColor = Colors.cellBackground
+        cell.textLabel?.font = Fonts.cell
         return cell
     }
     
@@ -123,6 +123,24 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return places.count
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            // handle delete (by removing the data from your array and updating the tableview)
+            places.remove(at: indexPath.row)
+            
+            if places.count == 0{
+                compareButton.isEnabled = false
+                compareButton.backgroundColor = compareButton.backgroundColor?.withAlphaComponent(0.3)
+            }
+            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+//            tableView.reloadData()
+        }
     }
     
     

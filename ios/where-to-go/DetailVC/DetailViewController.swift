@@ -10,7 +10,7 @@ import UIKit
 import GooglePlaces
 import Alamofire
 
-let myURL = "http://localhost:8081"
+
 
 class DetailViewController: UIViewController {
     @IBOutlet weak var imageScrollView: UIScrollView!

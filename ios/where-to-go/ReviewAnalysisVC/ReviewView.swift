@@ -8,6 +8,7 @@
 
 import UIKit
 
+let textOffset = CGFloat(5)
 class ReviewView: UIView {
     var reviewTextView: UITextView?
     var infoView: UIView?
@@ -23,33 +24,40 @@ class ReviewView: UIView {
     let reviewTextViewFont = CGFloat(18)
     let labelFont = CGFloat(18)
     let authorOffsetRatio = CGFloat(0.33)
-    let offSet = CGFloat(5)
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         reviewTextView = UITextView()
         reviewTextView!.frame = CGRect(x: 0, y: 0, width: screenWidth(), height: 0)
-        reviewTextView?.font = UIFont.systemFont(ofSize: reviewTextViewFont)
+        reviewTextView?.font = Fonts.reviewContent
         reviewTextView?.textAlignment = NSTextAlignment.justified
+        reviewTextView?.textColor = Colors.reviewText
+        reviewTextView?.backgroundColor = Colors.reviewBackground
         self.addSubview(reviewTextView!)
         
         infoView = UIView()
-        infoView!.frame = CGRect(x: offSet, y: 0, width: screenWidth(),height: infoViewHeight)
+        infoView!.frame = CGRect(x: textOffset, y: 0, width: screenWidth(),height: infoViewHeight)
         
         ratingLabel = UILabel()
-        ratingLabel?.font = UIFont.systemFont(ofSize: labelFont)
+        ratingLabel?.font = Fonts.reviewContent
+        ratingLabel?.textColor = Colors.text
         
         ratingValueLabel = UILabel()
-        ratingValueLabel?.font = UIFont.systemFont(ofSize: labelFont)
+        ratingValueLabel?.font = Fonts.reviewContent
+        ratingValueLabel?.textColor = Colors.text
         
         authorLabel = UILabel()
-        authorLabel?.font = UIFont.systemFont(ofSize: labelFont)
+        authorLabel?.font = Fonts.reviewContent
+        authorLabel?.textColor = Colors.text
         
         timeValueLabel = UILabel()
-        timeValueLabel?.font = UIFont.systemFont(ofSize: labelFont)
+        timeValueLabel?.font = Fonts.reviewContent
+        timeValueLabel?.textColor = Colors.text
         
         authorValueLabel = UILabel()
-        authorValueLabel?.font = UIFont.systemFont(ofSize: labelFont)
+        authorValueLabel?.font = Fonts.reviewContent
+        authorValueLabel?.textColor = Colors.text
         
         infoView?.addSubview(ratingLabel!)
         infoView?.addSubview(authorLabel!)
@@ -96,7 +104,7 @@ class ReviewView: UIView {
         timeValueLabel?.text = time
         timeValueLabel?.sizeToFit()
         timeValueLabel?.frame.origin.y = infoView!.frame.origin.y + (infoView?.frame.height)!
-        timeValueLabel?.frame.origin.x = offSet
+        timeValueLabel?.frame.origin.x = textOffset
         
         return (reviewTextView?.frame.height)! + infoViewHeight + (timeValueLabel?.frame.height)!
     }

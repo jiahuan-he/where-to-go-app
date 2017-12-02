@@ -17,11 +17,12 @@ import SwiftyJSON
 class ReviewAnalysisVC: UIViewController {
     var place: GMSPlace?
     var currentYPosition = CGFloat(20)
-    
+    let dividerHeight = CGFloat(10)
     @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        scrollView.backgroundColor = Colors.reviewBackground
         self.place = currentPlace
         let getReviewsURL: String = "\(myURL)/\(place!.placeID)/reviews"
         Alamofire.request(getReviewsURL).responseJSON(completionHandler: {
@@ -86,9 +87,9 @@ class ReviewAnalysisVC: UIViewController {
         let newView = ReviewView()
         newView.frame.origin.y = currentYPosition
         let newViewHeight = newView.setText(text: text, author: author, rating: rating, time: time)
-        currentYPosition = currentYPosition + newViewHeight
+        currentYPosition = currentYPosition + newViewHeight + dividerHeight
         scrollView.addSubview(newView)
-        scrollView.contentSize.height = currentYPosition * 1.05
+        scrollView.contentSize.height = currentYPosition
     }
     
     func addHeaderView(title: String){
@@ -107,28 +108,4 @@ class ReviewAnalysisVC: UIViewController {
 }
 
 
-class HeaderView: UIView{
-    
-    var titleLabel: UILabel?
-    
-    
-    let titleHeight = CGFloat(30)
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.titleLabel = UILabel()
-        self.titleLabel?.font = UIFont.systemFont(ofSize: 25)
-        addSubview(titleLabel!)
-    }
-    
-    func setTitle(title: String) -> CGFloat{
-        titleLabel?.text = title
-        titleLabel?.sizeToFit()
-        self.sizeToFit()
-        return titleHeight
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-}
 
