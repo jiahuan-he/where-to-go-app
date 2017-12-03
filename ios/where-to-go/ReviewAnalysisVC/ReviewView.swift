@@ -106,7 +106,16 @@ class ReviewView: UIView {
         timeValueLabel?.frame.origin.y = infoView!.frame.origin.y + (infoView?.frame.height)!
         timeValueLabel?.frame.origin.x = textOffset
         
+        setBottomBorder()
         return (reviewTextView?.frame.height)! + infoViewHeight + (timeValueLabel?.frame.height)!
+    }
+    
+    func setBottomBorder() {
+        let bottomBorder = CALayer()
+        let width = CGFloat(1.5)
+        bottomBorder.frame = CGRect(x: 0, y: (timeValueLabel?.frame.height)!-width, width: screenWidth(), height: width)
+        bottomBorder.backgroundColor = Colors.border.cgColor
+        timeValueLabel?.layer.addSublayer(bottomBorder)
     }
     
     func adjustTextViewHeight() -> CGFloat

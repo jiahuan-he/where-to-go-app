@@ -97,7 +97,16 @@ class SentimentView: UIView {
         let totalHeight = adjustTextViewHeight() + infoViewHeight
 //        self.frame.size.height = totalHeight
 //        self.frame.size.width = screenWidth()
+        setBottomBorder()
         return totalHeight
+    }
+    
+    func setBottomBorder() {
+        let bottomBorder = CALayer()
+        let width = CGFloat(1.5)
+        bottomBorder.frame = CGRect(x: 0, y: (infoView?.frame.height)!-width, width: screenWidth(), height: width)
+        bottomBorder.backgroundColor = Colors.border.cgColor
+        infoView?.layer.addSublayer(bottomBorder)
     }
     
     func adjustTextViewHeight() -> CGFloat

@@ -24,7 +24,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var websiteButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
-    
+    @IBOutlet weak var typesView: UITextView!
     
     /// Return the appropriate text string for the specified |GMSPlacesOpenNowStatus|.
     private func text(for status: GMSPlacesOpenNowStatus) -> String {
@@ -37,7 +37,6 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        phoneButton.setImage(UIImage(named:#imageLiteral(resourceName: "phone-icon")), for: UIControlState.normal)
         self.place = currentPlace
         phoneButton.setImage(#imageLiteral(resourceName: "phone-icon"), for: UIControlState.normal)
         phoneButton.tintColor = UIColor.white
@@ -46,20 +45,25 @@ class DetailViewController: UIViewController {
         
         phoneButton.addTarget(self, action: #selector(self.phoneButtonClicked), for: .touchUpInside)
         websiteButton.addTarget(self, action: #selector(self.websiteButtonClicked), for: .touchUpInside)
-        // Do any additional setup after loading the view.
         loadFirstPhotoForPlace(placeID: (self.place?.placeID)!)
-        placeNameLabel.text = place?.name
-        
+        placeNameLabel.text = place?.name        
         let addressArray = place?.formattedAddress?.components(separatedBy: ",")
         let address = addressArray![0] + ", "+addressArray![1]
         addressLabel.text = address
         ratingLabel.text = String(describing: round(Double((100*(place?.rating)!)))/100)
-        Alamofire.request(myURL).responseString(completionHandler: { response in
-            print(response)
-        })
+        typesView.textContainerInset = .zero
+        typesView.textContainer.lineFragmentPadding = 0
+        var count = 0
+        for str in (place?.types)!{
+            typesView.text.append(contentsOf: str.replacingOccurrences(of: "_", with: " "))
+            count = count + 1
+            if(count == (place?.types.count)!){
+                break
+            }
+            typesView.text.append(contentsOf: ", ")
+        }
     }
     @objc func websiteButtonClicked(){
-        //        let trimmedNumber = self.place!.phoneNumber?.trimmingCharacters(in: .whitespaces)
         if let url = self.place!.website, UIApplication.shared.canOpenURL(url) {
             if #available(iOS 10, *) {
                 print("calling")
@@ -145,16 +149,4 @@ class DetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if(segue.identifier == "reviewAnalysisVC"){
-//            let vc = segue.destination as! ReviewAnalysisVC
-//            vc.place = self.place!
-//        }
-//    }
- 
-
 }

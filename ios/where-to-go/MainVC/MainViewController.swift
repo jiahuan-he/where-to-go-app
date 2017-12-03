@@ -114,7 +114,16 @@ class MainViewController: UIViewController, UITableViewDelegate,  UITableViewDat
         cell.textLabel?.textColor = UIColor.white
         cell.backgroundColor = Colors.cellBackground
         cell.textLabel?.font = Fonts.cell
+        setBottomBorder(cell: cell)
         return cell
+    }
+    
+    func setBottomBorder(cell: UITableViewCell) {
+        let bottomBorder = CALayer()
+        let width = CGFloat(1.5)
+        bottomBorder.frame = CGRect(x: 0, y: cell.frame.height-width, width: screenWidth(), height: width)
+        bottomBorder.backgroundColor = UIColor.white.cgColor
+        cell.layer.addSublayer(bottomBorder)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

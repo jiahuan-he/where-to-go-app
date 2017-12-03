@@ -80,7 +80,7 @@ class ReviewAnalysisVC: UIViewController {
         let newViewHeight =  newView.setText(text: text)
         currentYPosition = currentYPosition + newViewHeight
         scrollView.addSubview(newView)
-        scrollView.contentSize.height = currentYPosition * 1.05
+        scrollView.contentSize.height = currentYPosition * 1.00
     }
     
     func addReviewView(text: String, rating: String, author: String, time: String){
