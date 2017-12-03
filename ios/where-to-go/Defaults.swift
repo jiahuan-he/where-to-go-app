@@ -9,7 +9,9 @@
 import Foundation
 import UIKit
 
-let myURL = "http://localhost:8081"
+//let myURL = "http://localhost:8081"
+let myURL = "https://where-to-go-1511645417988.appspot.com"
+
 struct Colors {
     static let headerBackground = UIColor(red: 89, green: 127, blue: 202)
     static let cellBackground = UIColor(red: 252, green: 207, blue: 77)
@@ -25,6 +27,7 @@ struct Colors {
     static let colorP2 = UIColor(red: 200, green: 255, blue: 0)
     static let colorP3 = UIColor(red: 140, green: 255, blue: 0)
     static let colorP4 = UIColor(red: 100, green: 255, blue: 0)
+    static let border = UIColor(red: 100, green: 255, blue: 0)
 }
 
 struct Fonts {

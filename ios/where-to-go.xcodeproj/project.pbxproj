@@ -80,7 +80,6 @@
 			children = (
 				3A068DCF1FCB6EE80076327F /* GroupedStackedBarVC.swift */,
 				3AB21F9A1FCA14630022D2EE /* MainViewController.swift */,
-				3A068DEC1FD2A4990076327F /* Defaults.swift */,
 			);
 			path = MainVC;
 			sourceTree = "<group>";
@@ -106,6 +105,7 @@
 		3AB21F971FCA14630022D2EE /* where-to-go */ = {
 			isa = PBXGroup;
 			children = (
+				3A068DEC1FD2A4990076327F /* Defaults.swift */,
 				3A068DE71FCFB3B10076327F /* MainVC */,
 				3A068DE61FCFB39C0076327F /* DetailVC */,
 				3A068DE51FCFB3550076327F /* ReviewAnalysisVC */,

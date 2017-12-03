@@ -24,33 +24,6 @@ app.get('/', (req, res) => {
     res.status(200).send('Hello, world swift !').end();
   });
 
-// By RESTful convension, a /get is needed here 
-// But in this case, the length of the query string exceeds 1024 bytes
-// So /post is used instead 
-// app.post('/sentiment', (req, res) => {  
-  
-//   const content = req.body.content
-//   const document = {content: content, type: 'PLAIN_TEXT'};
-
-//   // result: Object:  {
-//   //                    "document": {score:number, magnitude: number}, 
-//   //                    "sentences": []Object{text: string, score:number, magnitude: number}
-//   //                  }
-//   sentimentAnalyzer(client, document, (result) => res.json(result))
-// })
-
-// app.post("/entities", (req, res) => {
-//   const content = req.body.content
-//   const document = {content: content, type: 'PLAIN_TEXT'};
-
-//   const filter = {
-//     "minAbsScore": 0.5, 
-//     "minMagnitude": 0.5, 
-//     "minSalience": null
-//   }
-//   entitiesAnalyzer(client, document, (result) => res.json(result), filter)
-// })
-
 getURL = (pid, key) => {
   return `https://maps.googleapis.com/maps/api/place/details/json?placeid=${pid}&key=${key}`
 }
