@@ -6,8 +6,6 @@
 //  Copyright © 2017 Jiahuan He. All rights reserved.
 //
 
-
-
 import UIKit
 import Alamofire
 import GooglePlaces

@@ -71,6 +71,7 @@ class ReviewView: UIView {
     
     func setValues(author: String, rating: String, time: String){
         
+        
         infoView?.addSubview(authorValueLabel!)
         infoView?.addSubview(ratingValueLabel!)
         infoView?.addSubview(timeValueLabel!)
@@ -107,6 +108,23 @@ class ReviewView: UIView {
         timeValueLabel?.frame.origin.x = textOffset
         
         setBottomBorder()
+        if Double(rating)! < 0.625 {
+            self.ratingValueLabel?.textColor = Colors.colorN4
+        } else if Double(rating)! < 1.25 {
+            self.ratingValueLabel?.textColor = Colors.colorN3
+        } else if Double(rating)! < 1.875 {
+            self.ratingValueLabel?.textColor = Colors.colorN2
+        } else if Double(rating)! < 2.5 {
+            self.ratingValueLabel?.textColor = Colors.colorN1
+        } else if Double(rating)! < 3.125 {
+            self.ratingValueLabel?.textColor = Colors.colorP1
+        } else if Double(rating)! < 3.8 {
+            self.ratingValueLabel?.textColor = Colors.colorP2
+        } else if Double(rating)! < 4.325 {
+            self.ratingValueLabel?.textColor = Colors.colorP3
+        } else {
+            self.ratingValueLabel?.textColor = Colors.colorP4
+        }
         return (reviewTextView?.frame.height)! + infoViewHeight + (timeValueLabel?.frame.height)!
     }
     

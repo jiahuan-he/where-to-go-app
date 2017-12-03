@@ -89,7 +89,6 @@ class SentimentView: UIView {
         } else {
             self.scoreValueLabel?.textColor = Colors.colorP4
         }
-//        self.sizeToFit()
     }
     
     func setText(text: String) -> CGFloat{

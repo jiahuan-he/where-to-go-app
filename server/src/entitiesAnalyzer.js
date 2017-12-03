@@ -39,9 +39,11 @@ module.exports = (client, text, callback, filter) => {
                 // console.log(`  Score: ${item.score}`);
                 // console.log(`  Magnitude: ${item.magnitude}`);  
                 // console.log()
+                
             }            
         });
-            callback(analyzedResult)                                              
+            const sortedResult = analyzedResult.sort( (item1, item2) => item2.score-item1.score)
+            callback(sortedResult)                                              
         })
         .catch(err => {
         console.error('ERROR:', err);

@@ -52,8 +52,8 @@ app.get("/analysis/entities",(req, res) => {
     const rawReviews = googleRes.data.result.reviews
     const reviews = Object.keys(rawReviews).map( (key) => rawReviews[key].text) 
     const filter = {
-      "minAbsScore": null, 
-      "minMagnitude": null, 
+      "minAbsScore": 0.2, 
+      "minMagnitude": 0.2, 
       "minSalience": null
     }
     const joinedReview = reviews.join("")    
@@ -73,8 +73,8 @@ app.get("/analysis/sentences",(req, res) => {
     const rawReviews = googleRes.data.result.reviews
     const reviews = Object.keys(rawReviews).map( (key) => rawReviews[key].text) 
     const filter = {
-      "minAbsScore": null, 
-      "minMagnitude": null, 
+      "minAbsScore": 0.2, 
+      "minMagnitude": 0.2, 
     }
     const joinedReview = reviews.join("")    
     const document = {content: joinedReview, type: 'PLAIN_TEXT'};

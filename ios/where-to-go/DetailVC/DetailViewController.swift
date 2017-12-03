@@ -10,8 +10,6 @@ import UIKit
 import GooglePlaces
 import Alamofire
 
-
-
 class DetailViewController: UIViewController {
     @IBOutlet weak var imageScrollView: UIScrollView!
     var imageArray = [UIImage]()
