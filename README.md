@@ -1,7 +1,7 @@
 # WhereToGo app
 An IOS app helping user gain more insights of online ratings and reviews. 
 ## Tech stack: 
-**[Client](/IOS)** Swift with a few open source libraries
+**[Client](/ios)** Swift with a few open source libraries
 
 **[Server](/server)** Node.js, Express.js
 
