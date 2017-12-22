@@ -1,11 +1,11 @@
 # WhereToGo app
 An IOS app helping user gain more insights of online ratings and reviews.
 ## Tech stack:
-**[Client](/ios)** Swift with a few open source libraries
+**Client** [Swift](https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/index.html), [Alamofire](https://github.com/Alamofire/Alamofire), [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
 
-**[Server](/server)** Node.js, Express.js
+**Server** [Node.js](https://nodejs.org/en/), [Express.js](https://expressjs.com/)
 
-**Google Services** App Engine, Places API, Natural Language API
+**Google Services** [App Engine](https://cloud.google.com/appengine/), [Places API](https://developers.google.com/places/), [Natural Language API](https://cloud.google.com/natural-language/)
 
 ## Demo
 
